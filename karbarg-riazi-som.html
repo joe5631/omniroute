@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#7c5cff">
+<title>کاربرگ تعاملی ریاضی سوم 🌟</title>
+<style>
+  :root{
+    --purple:#7c5cff; --pink:#ff6fa5; --orange:#ffb347; --green:#3ecf8e;
+    --blue:#4aa3ff; --ink:#33305e; --paper:#fffdf7; --soft:#f4f0ff;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    font-family:"Vazirmatn","IRANSansX","Segoe UI",Tahoma,"Noto Sans Arabic","Noto Naskh Arabic",sans-serif;
+    background:linear-gradient(160deg,#ffe9f1 0%,#e8f7ee 45%,#e7f0ff 100%);
+    min-height:100vh; color:var(--ink);
+    padding:14px 12px 40px; line-height:1.9;
+  }
+  .wrap{max-width:560px; margin:0 auto;}
+  .card{
+    background:var(--paper); border-radius:26px; padding:20px 18px 24px;
+    box-shadow:0 10px 30px rgba(90,70,180,.16); border:3px solid #fff;
+    margin-top:14px; position:relative; overflow:hidden;
+  }
+  .card::before{
+    content:""; position:absolute; inset-inline:0; top:0; height:10px;
+    background:repeating-linear-gradient(90deg,var(--pink) 0 26px,var(--orange) 26px 52px,var(--green) 52px 78px,var(--blue) 78px 104px,var(--purple) 104px 130px);
+  }
+  h1{font-size:1.35rem; margin:14px 0 6px; text-align:center;}
+  h2{font-size:1.15rem; margin:10px 0 8px;}
+  .sub{text-align:center; color:#6b6790; font-size:.95rem; margin:0 0 6px;}
+  .badge{
+    display:inline-block; background:var(--soft); color:var(--purple);
+    border-radius:999px; padding:2px 14px; font-weight:700; font-size:.9rem;
+    border:2px solid #e3d9ff;
+  }
+  .qtext{font-size:1.06rem; font-weight:600; background:#fff8e8; border:2px dashed #ffd28a; border-radius:16px; padding:10px 12px; margin:12px 0;}
+  .hint{font-size:.9rem; color:#7a76a0; margin:6px 2px;}
+  label.big{display:block; font-weight:700; margin:14px 0 6px; font-size:1.02rem;}
+  input[type=text]{
+    font:inherit; font-size:1.25rem; font-weight:700; text-align:center;
+    border:3px solid #d9d2f5; border-radius:14px; background:#fff;
+    padding:8px 6px; width:5.2em; max-width:100%; color:var(--ink);
+    outline:none; transition:border-color .15s, box-shadow .15s;
+  }
+  input[type=text]:focus{border-color:var(--purple); box-shadow:0 0 0 4px #efe9ff;}
+  input.name{width:100%; font-size:1.2rem;}
+  .seq{display:flex; flex-wrap:wrap; align-items:center; gap:6px; justify-content:center; background:#f6fbf7; border-radius:16px; padding:10px 8px; margin:10px 0; border:2px solid #dff2e6;}
+  .seq .num{font-size:1.35rem; font-weight:800; color:#1f7a4d;}
+  .seq .sep{color:#9a96c0; font-weight:700;}
+  .seq input{width:3.4em; font-size:1.2rem;}
+  .btn{
+    font:inherit; font-size:1.1rem; font-weight:800; border:none; cursor:pointer;
+    border-radius:18px; padding:14px 18px; width:100%; margin-top:12px;
+    color:#fff; background:linear-gradient(135deg,var(--purple),var(--pink));
+    box-shadow:0 6px 0 #5a3fd6, 0 10px 18px rgba(124,92,255,.35);
+    transition:transform .08s;
+  }
+  .btn:active{transform:translateY(4px); box-shadow:0 2px 0 #5a3fd6;}
+  .btn.green{background:linear-gradient(135deg,#2bb673,#3ecf8e); box-shadow:0 6px 0 #1d8f59,0 10px 18px rgba(46,187,120,.35);}
+  .btn.gray{background:linear-gradient(135deg,#8b87b3,#a5a1cc); box-shadow:0 6px 0 #6e6a99,0 10px 18px rgba(120,116,160,.3);}
+  .btn.ghost{background:#fff; color:var(--purple); border:3px solid #e3d9ff; box-shadow:none;}
+  .row2{display:flex; gap:10px;}
+  .row2 .btn{margin-top:12px;}
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:16px;}
+  .stars{font-size:1.25rem; letter-spacing:2px; white-space:nowrap;}
+  .pcount{font-size:.9rem; color:#6b6790; font-weight:700; background:#fff; border-radius:999px; padding:2px 12px; border:2px solid #eee8ff;}
+  .profit-row{
+    display:flex; align-items:center; gap:10px; background:#fff;
+    border:2px solid #ffe3c2; border-radius:16px; padding:8px 12px; margin:8px 0;
+  }
+  .profit-row .packs{font-weight:800; font-size:1.05rem; color:#b26a00; min-width:5.2em;}
+  .profit-row .lbl{color:#7a76a0; font-size:.92rem; flex:1;}
+  .profit-row input{width:4.2em;}
+  .toman{font-size:.9rem; color:#7a76a0;}
+  .days{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin:10px 0;}
+  .day{background:#eef7ff; border:2px solid #cfe8ff; border-radius:12px; padding:4px 8px; text-align:center; font-size:.8rem; color:#1c6bb0; font-weight:700;}
+  .day input{display:block; width:3em; font-size:1rem; margin-top:2px; padding:4px 2px;}
+  .shapebox{background:#fff; border:2px solid #ffe0b3; border-radius:18px; padding:12px; margin:12px 0;}
+  .grid{--sq:44px; display:grid; gap:5px; margin:10px auto 6px; width:max-content; direction:ltr;}
+  .sq{
+    width:var(--sq); height:var(--sq); border-radius:9px; border:none; padding:0; cursor:pointer;
+    background:linear-gradient(145deg,#ffc46b,#ff9f3d); box-shadow:inset 0 -3px 0 rgba(0,0,0,.12);
+    font:inherit; font-weight:800; font-size:1rem; color:#fff; position:relative;
+  }
+  .sq.empty{background:transparent; box-shadow:none; cursor:default;}
+  .sq.tapped{background:linear-gradient(145deg,#7de3a9,#2bb673); box-shadow:inset 0 -3px 0 rgba(0,0,0,.15);}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:8px 0;}
+  .chip{
+    font:inherit; font-size:.95rem; font-weight:700; border-radius:999px; cursor:pointer;
+    border:2px solid #d9d2f5; background:#fff; color:var(--ink); padding:7px 14px;
+  }
+  .chip.on{background:var(--purple); border-color:var(--purple); color:#fff;}
+  .count-badge{ text-align:center; font-weight:800; font-size:1.05rem; color:#1f7a4d; background:#eafaf1; border-radius:12px; padding:6px; margin-top:8px;}
+  .sumrow{border-bottom:2px dotted #e6e0f7; padding:10px 4px; font-size:1rem;}
+  .sumrow:last-child{border-bottom:none;}
+  .sumrow b{color:var(--purple);}
+  .sumans{font-weight:800; font-size:1.08rem; color:#1f7a4d;}
+  .note{background:#fff3f7; border:2px solid #ffd3e2; color:#a04368; border-radius:14px; padding:10px 12px; font-size:.92rem; margin-top:14px;}
+  .toast{
+    position:fixed; inset-inline:0; bottom:26px; margin:auto; width:max-content; max-width:88%;
+    background:#33305e; color:#fff; border-radius:999px; padding:10px 22px; font-weight:700;
+    box-shadow:0 8px 20px rgba(0,0,0,.25); opacity:0; transform:translateY(20px);
+    transition:.25s; pointer-events:none; z-index:60; font-size:.95rem; text-align:center;
+  }
+  .toast.show{opacity:1; transform:translateY(0);}
+  .modal{position:fixed; inset:0; background:rgba(30,25,60,.72); display:none; align-items:center; justify-content:center; padding:16px; z-index:50;}
+  .modal.open{display:flex;}
+  .modal .box{background:#fff; border-radius:22px; padding:16px; max-width:440px; width:100%; max-height:92vh; overflow:auto; text-align:center;}
+  .modal img{width:100%; border-radius:14px; border:2px solid #eee8ff;}
+  .hidden{display:none;}
+  .ok{color:#1f9d61; font-weight:800;}
+  .bad{color:#d64560; font-weight:800;}
+  .scorebox{text-align:center; font-size:1.2rem; font-weight:800; background:#eafaf1; border:2px solid #bfe9d2; border-radius:16px; padding:12px; margin:12px 0;}
+  .bigemoji{font-size:2.6rem; text-align:center; margin-top:10px;}
+  @media (max-width:380px){ .grid{--sq:38px;} input[type=text]{font-size:1.1rem;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= شروع ================= -->
+  <section class="card" id="scr-start">
+    <div class="bigemoji">🎒📐✏️</div>
+    <h1>کاربرگ تعاملی ریاضی سوم دبستان</h1>
+    <p class="sub">( فصل ۱ ) — الگوها و شمارش چندتا چندتا</p>
+    <div class="qtext">سلام قهرمان کوچولو! 👋<br>این کاربرگ ۵ سوال دارد: سوال‌های ۲ ، ۴ ، ۵ ، ۶ و ۷.<br>هر وقت آماده بودی شروع کن! 🚀</div>
+    <label class="big" for="nameInput">🖍️ اول اسمت را بنویس:</label>
+    <input type="text" id="nameInput" class="name" placeholder="مثلاً: زهرا محمدی" autocomplete="off">
+    <div class="note">🤫 یادت باشد: تا آخرِ کاربرگ به تو نمی‌گوییم جواب‌هایت درست است یا غلط! جواب‌ها فقط برای خودت و معلمت نگه داشته می‌شود.</div>
+    <button class="btn" id="btnStart">شروع کاربرگ 🌟</button>
+  </section>
+
+  <!-- ================= سوال ۲ ================= -->
+  <section class="card hidden" id="scr-q2">
+    <div class="topbar">
+      <span class="badge">سوال ۲ کتاب • مرحله‌ی ۱ از ۵</span>
+      <span class="stars" id="stars-q2"></span>
+    </div>
+    <h2>🔢 الگوها را ادامه بده</h2>
+    <div class="qtext">به اختلاف عدد ها خوب نگاه کن! الگوی هر ردیف را پیدا کن و سه جای خالی را پر کن.</div>
+    <label class="big">ردیف اول:</label>
+    <div class="seq">
+      <span class="num">۲</span><span class="sep">،</span>
+      <span class="num">۵</span><span class="sep">،</span>
+      <span class="num">۹</span><span class="sep">،</span>
+      <input type="text" inputmode="numeric" data-f="q2a.0" aria-label="جای خالی اول ردیف ۱"><span class="sep">،</span>
+      <input type="text" inputmode="numeric" data-f="q2a.1" aria-label="جای خالی دوم ردیف ۱"><span class="sep">،</span>
+      <input type="text" inputmode="numeric" data-f="q2a.2" aria-label="جای خالی سوم ردیف ۱">
+    </div>
+    <label class="big">ردیف دوم:</label>
+    <div class="seq">
+      <span class="num">۵</span><span class="sep">،</span>
+      <span class="num">۱۱</span><span class="sep">،</span>
+      <span class="num">۱۷</span><span class="sep">،</span>
+      <input type="text" inputmode="numeric" data-f="q2b.0" aria-label="جای خالی اول ردیف ۲"><span class="sep">،</span>
+      <input type="text" inputmode="numeric" data-f="q2b.1" aria-label="جای خالی دوم ردیف ۲"><span class="sep">،</span>
+      <input type="text" inputmode="numeric" data-f="q2b.2" aria-label="جای خالی سوم ردیف ۲">
+    </div>
+    <div class="row2">
+      <button class="btn gray" data-back="scr-start">قبلی</button>
+      <button class="btn" data-next="scr-q4">سوال بعدی ⬅️</button>
+    </div>
+  </section>
+
+  <!-- ================= سوال ۴ ================= -->
+  <section class="card hidden" id="scr-q4">
+    <div class="topbar">
+      <span class="badge">سوال ۴ کتاب • مرحله‌ی ۲ از ۵</span>
+      <span class="stars" id="stars-q4"></span>
+    </div>
+    <h2>🍪 مغازه‌دار و بیسکویت‌ها</h2>
+    <div class="qtext">مغازه‌داری یک بسته بیسکویت را <b>۲۵۰ تومان</b> می‌خرد و <b>۳۰۰ تومان</b> می‌فروشد.<br>اول جدول سود را کامل کن، بعد به دو سوال پایین جواب بده. 😋</div>
+    <label class="big">جدول سود فروش بیسکویت:</label>
+    <div id="profitRows"></div>
+    <label class="big">الف) اگر مغازه‌دار ۷ بسته بیسکویت بفروشد، چقدر سود می‌کند؟</label>
+    <div class="seq"><input type="text" inputmode="numeric" data-f="q4a" aria-label="جواب بخش الف"><span class="toman">تومان</span></div>
+    <label class="big">ب) چند بسته بیسکویت باید بفروشد تا با سودِ آن بتواند یک بسته بیسکویت بخرد؟</label>
+    <div class="seq"><input type="text" inputmode="numeric" data-f="q4b" aria-label="جواب بخش ب"><span class="toman">بسته</span></div>
+    <div class="row2">
+      <button class="btn gray" data-back="scr-q2">قبلی</button>
+      <button class="btn" data-next="scr-q5">سوال بعدی ⬅️</button>
+    </div>
+  </section>
+
+  <!-- ================= سوال ۵ ================= -->
+  <section class="card hidden" id="scr-q5">
+    <div class="topbar">
+      <span class="badge">سوال ۵ کتاب • مرحله‌ی ۳ از ۵</span>
+      <span class="stars" id="stars-q5"></span>
+    </div>
+    <h2>📖 کتاب داستان هلیا</h2>
+    <div class="qtext">هلیا روز <b>شنبه ۲ صفحه</b> از کتاب داستانش را خواند و برنامه‌ریزی کرد که هر روز <b>۲ صفحه بیشتر از روز قبل</b> بخواند تا آخر هفته.<br>او در یک هفته چند صفحه از کتابش را می‌خواند؟</div>
+    <div class="hint">✨ کمک: اول بنویس هر روز چند صفحه خواند، بعد همه را با هم جمع کن.</div>
+    <div class="days" id="dayHelper"></div>
+    <label class="big">جواب: در یک هفته چند صفحه می‌خواند؟</label>
+    <div class="seq"><input type="text" inputmode="numeric" data-f="q5" aria-label="جواب سوال ۵"><span class="toman">صفحه</span></div>
+    <div class="row2">
+      <button class="btn gray" data-back="scr-q4">قبلی</button>
+      <button class="btn" data-next="scr-q6">سوال بعدی ⬅️</button>
+    </div>
+  </section>
+
+  <!-- ================= سوال ۶ ================= -->
+  <section class="card hidden" id="scr-q6">
+    <div class="topbar">
+      <span class="badge">سوال ۶ کتاب • مرحله‌ی ۴ از ۵</span>
+      <span class="stars" id="stars-q6"></span>
+    </div>
+    <h2>🧮 شمارش ۶ تا ۶ تا</h2>
+    <div class="qtext">در الگوی شمارش <b>۶ تا ۶ تا</b>، ۲ عددِ بعد از <b>۳۶</b> چند است؟</div>
+    <div class="seq">
+      <span class="num">۶</span><span class="sep">،</span>
+      <span class="num">۱۲</span><span class="sep">،</span>
+      <span class="num">۱۸</span><span class="sep">،</span>
+      <span class="num">۲۴</span><span class="sep">،</span>
+      <span class="num">۳۰</span><span class="sep">،</span>
+      <span class="num">۳۶</span><span class="sep">،</span>
+      <input type="text" inputmode="numeric" data-f="q6.0" aria-label="عدد اول بعد از ۳۶"><span class="sep">،</span>
+      <input type="text" inputmode="numeric" data-f="q6.1" aria-label="عدد دوم بعد از ۳۶">
+    </div>
+    <div class="hint">✨ کمک: هر بار ۶ تا بشمار و جلو برو!</div>
+    <div class="row2">
+      <button class="btn gray" data-back="scr-q5">قبلی</button>
+      <button class="btn" data-next="scr-q7">سوال بعدی ⬅️</button>
+    </div>
+  </section>
+
+  <!-- ================= سوال ۷ ================= -->
+  <section class="card hidden" id="scr-q7">
+    <div class="topbar">
+      <span class="badge">سوال ۷ کتاب • مرحله‌ی ۵ از ۵</span>
+      <span class="stars" id="stars-q7"></span>
+    </div>
+    <h2>🟧 مربع‌ها را بشمار!</h2>
+    <div class="qtext">اول انتخاب کن چندتا چندتا می‌شماریم، بعد روی هر مربع یک بار بزن تا شمرده شود. 🖐️</div>
+
+    <div class="shapebox">
+      <b>شکل اول:</b>
+      <div class="chips" data-shape="0">
+        <button class="chip" data-p="۳ تا ۳ تا">۳ تا ۳ تا</button>
+        <button class="chip" data-p="۴ تا ۴ تا">۴ تا ۴ تا</button>
+        <button class="chip" data-p="۵ تا ۵ تا">۵ تا ۵ تا</button>
+        <button class="chip" data-p="۶ تا ۶ تا">۶ تا ۶ تا</button>
+      </div>
+      <div class="grid" id="grid0" style="grid-template-columns:repeat(4,var(--sq));"></div>
+      <div class="count-badge" id="cnt0">تا حالا ۰ مربع شمرده‌ای</div>
+    </div>
+
+    <div class="shapebox">
+      <b>شکل دوم:</b>
+      <div class="chips" data-shape="1">
+        <button class="chip" data-p="۳ تا ۳ تا">۳ تا ۳ تا</button>
+        <button class="chip" data-p="۴ تا ۴ تا">۴ تا ۴ تا</button>
+        <button class="chip" data-p="۵ تا ۵ تا">۵ تا ۵ تا</button>
+        <button class="chip" data-p="۶ تا ۶ تا">۶ تا ۶ تا</button>
+      </div>
+      <div class="grid" id="grid1" style="grid-template-columns:repeat(6,var(--sq));"></div>
+      <div class="count-badge" id="cnt1">تا حالا ۰ مربع شمرده‌ای</div>
+    </div>
+
+    <div class="row2">
+      <button class="btn gray" data-back="scr-q6">قبلی</button>
+      <button class="btn green" data-next="scr-sum">پایان و دیدن خلاصه 🏁</button>
+    </div>
+  </section>
+
+  <!-- ================= خلاصه ================= -->
+  <section class="card hidden" id="scr-sum">
+    <div class="bigemoji">🎉</div>
+    <h1>آفرین! تمام شد</h1>
+    <p class="sub">حالا خلاصه‌ی جواب‌هایت را برای معلمت بفرست </p>
+    <div id="sumCard" style="background:#fff;border:3px solid #e3d9ff;border-radius:18px;padding:12px 14px;margin-top:12px;"></div>
+    <button class="btn green" id="btnShot">📸 دانلود اسکرین‌شات خلاصه‌ی جواب‌ها</button>
+    <button class="btn ghost" data-back="scr-q7">✏️ ویرایش جواب‌ها</button>
+    <div class="note">⚠️ دکمه‌ی پایین را فقط <b>بعد از فرستادن اسکرین‌شات برای معلمت</b> بزن، نه قبل از آن!</div>
+    <button class="btn gray" id="btnReveal">🔍 نمایش نتیجه‌ی من (بعد از ارسال برای معلم)</button>
+    <div id="revealBox" class="hidden"></div>
+    <button class="btn ghost" id="btnRestart">🔁 شروع دوباره از اول</button>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="modal">
+  <div class="box">
+    <h2 style="margin-top:4px;">📸 تصویر خلاصه‌ی جواب‌ها</h2>
+    <p class="sub" style="margin:4px 0 10px;">اگر خودش ذخیره نشد، انگشتت را روی تصویر نگه دار و «Save Image» را بزن.</p>
+    <img id="modalImg" alt="خلاصه جواب‌ها">
+    <a id="modalSave" class="btn green" style="display:block;text-decoration:none;text-align:center;" download="answer-summary.png">💾 ذخیره‌ی تصویر</a>
+    <button class="btn gray" id="modalClose">بستن</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------- ابزار اعداد فارسی ---------- */
+  var FA="۰۱۲۳۴۵۶۷۸۹";
+  function toFa(s){ return String(s).replace(/\d/g,function(d){return FA[+d];}).replace(/[٠-٩]/g,function(d){return FA[d.charCodeAt(0)-0x660];}); }
+  function toEn(s){ return String(s).replace(/[۰-۹]/g,function(d){return String(FA.indexOf(d));}).replace(/[٠-٩]/g,function(d){return String(d.charCodeAt(0)-0x660);}).replace(/[^\d]/g,""); }
+  function num(s){ var e=toEn(s); return e===""?null:parseInt(e,10); }
+
+  /* ---------- وضعیت ---------- */
+  var state={ name:"", q2a:["","",""], q2b:["","",""], q4t:["","","","","","",""], q4a:"", q4b:"", q5:"", q6:["",""], q7:[null,null], q7p:[null,null] };
+
+  /* ---------- کلید جواب (فقط برای نمایش نتیجه در پایان) ---------- */
+  var KEY={ q2a:[14,20,27], q2b:[23,29,35], q4t:[50,100,150,200,250,300,350], q4a:350, q4b:5, q5:56, q6:[42,48], q7:[18,15] };
+
+  /* ---------- ساخت ردیف‌های جدول سود ---------- */
+  var pr=document.getElementById("profitRows");
+  for(var i=1;i<=7;i++){
+    var div=document.createElement("div"); div.className="profit-row";
+    div.innerHTML='<span class="packs">🍪 ×'+toFa(i)+'</span><span class="lbl">سود:</span><input type="text" inputmode="numeric" data-f="q4t.'+(i-1)+'" aria-label="سود '+toFa(i)+' بسته"><span class="toman">تومان</span>';
+    pr.appendChild(div);
+  }
+
+  /* ---------- کمک‌خرج روزهای هفته (سوال ۵) ---------- */
+  var days=["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه"];
+  var dh=document.getElementById("dayHelper");
+  days.forEach(function(d){
+    var s=document.createElement("span"); s.className="day";
+    s.innerHTML=d+' <input type="text" inputmode="numeric" class="scratch" aria-label="صفحه‌های '+d+'">';
+    dh.appendChild(s);
+  });
+
+  /* ---------- شکل‌های سوال ۷ (دقیقاً مثل کتاب) ---------- */
+  var SHAPES=[
+    ["###.","###.","###.",".###",".###",".###"],   /* ۱۸ مربع */
+    ["..#...","######","######","#...#."]           /* ۱۵ مربع */
+  ];
+  var tapOrder=[[],[]];
+  SHAPES.forEach(function(rows,si){
+    var g=document.getElementById("grid"+si);
+    rows.forEach(function(row){
+      row.split("").forEach(function(ch){
+        var b=document.createElement("button");
+        b.type="button";
+        if(ch==="#"){ b.className="sq"; b.dataset.shape=si; b.setAttribute("aria-label","مربع"); }
+        else { b.className="sq empty"; b.disabled=true; }
+        g.appendChild(b);
+      });
+    });
+  });
+  document.querySelectorAll(".sq:not(.empty)").forEach(function(sq){
+    sq.addEventListener("click",function(){
+      var si=+sq.dataset.shape, pos=tapOrder[si].indexOf(sq);
+      if(pos>=0){ tapOrder[si].splice(pos,1); } else { tapOrder[si].push(sq); }
+      tapOrder[si].forEach(function(el,idx){ el.textContent=toFa(idx+1); el.classList.add("tapped"); });
+      document.querySelectorAll("#grid"+si+" .sq").forEach(function(el){
+        if(tapOrder[si].indexOf(el)<0){ el.textContent=""; el.classList.remove("tapped"); }
+      });
+      state.q7[si]=tapOrder[si].length;
+      document.getElementById("cnt"+si).textContent="تا حالا "+toFa(state.q7[si]||0)+" مربع شمرده‌ای";
+      updateStars();
+    });
+  });
+  document.querySelectorAll(".chips").forEach(function(box){
+    box.querySelectorAll(".chip").forEach(function(ch){
+      ch.addEventListener("click",function(){
+        box.querySelectorAll(".chip").forEach(function(c){c.classList.remove("on");});
+        ch.classList.add("on");
+        state.q7p[+box.dataset.shape]=ch.dataset.p;
+      });
+    });
+  });
+
+  /* ---------- ورودی‌ها ---------- */
+  document.addEventListener("input",function(e){
+    var f=e.target.dataset && e.target.dataset.f;
+    if(!f) return;
+    var clean=toFa(toEn(e.target.value));
+    if(clean!==e.target.value) e.target.value=clean;
+    var p=f.split(".");
+    if(p.length===2) state[p[0]][+p[1]]=clean; else state[p[0]]=clean;
+    updateStars();
+  });
+
+  /* ---------- ناوبری ---------- */
+  function show(id){
+    document.querySelectorAll("section.card").forEach(function(s){ s.classList.add("hidden"); });
+    document.getElementById(id).classList.remove("hidden");
+    window.scrollTo(0,0);
+    updateStars();
+  }
+  document.querySelectorAll("[data-next]").forEach(function(b){ b.addEventListener("click",function(){ show(b.dataset.next); if(b.dataset.next==="scr-sum") buildSummary(); }); });
+  document.querySelectorAll("[data-back]").forEach(function(b){ b.addEventListener("click",function(){ show(b.dataset.back); }); });
+  document.getElementById("btnStart").addEventListener("click",function(){
+    state.name=document.getElementById("nameInput").value.trim();
+    if(!state.name){ toast("اول اسم قشنگت را بنویس 🖍️"); document.getElementById("nameInput").focus(); return; }
+    show("scr-q2");
+  });
+  document.getElementById("btnRestart").addEventListener("click",function(){ location.reload(); });
+
+  /* ---------- ستاره‌های پیشرفت ---------- */
+  function answered(q){
+    if(q==="q2") return state.q2a.concat(state.q2b).every(function(v){return v!=="";});
+    if(q==="q4") return state.q4t.concat([state.q4a,state.q4b]).every(function(v){return v!=="";});
+    if(q==="q5") return state.q5!=="";
+    if(q==="q6") return state.q6.every(function(v){return v!=="";});
+    if(q==="q7") return state.q7[0]!=null && state.q7[1]!=null;
+    return false;
+  }
+  function updateStars(){
+    var qs=["q2","q4","q5","q6","q7"];
+    qs.forEach(function(q){
+      var el=document.getElementById("stars-"+q);
+      if(el) el.textContent=qs.map(function(x){return answered(x)?"⭐":"☆";}).join("");
+    });
+  }
+
+  /* ---------- توست ---------- */
+  var toastEl=document.getElementById("toast"), toastT=null;
+  function toast(msg){ toastEl.textContent=msg; toastEl.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){toastEl.classList.remove("show");},2600); }
+
+  /* ---------- خلاصه ---------- */
+  function ansOrDash(v){ return v===""||v==null?"—":toFa(v); }
+  function sumLines(){
+    return [
+      {q:"سوال ۲ 🔢", a:"ردیف اول: "+state.q2a.map(ansOrDash).join(" ، ")+" | ردیف دوم: "+state.q2b.map(ansOrDash).join(" ، ")},
+      {q:"سوال ۴ 🍪", a:"سود جدول: "+state.q4t.map(ansOrDash).join(" ، ")+" | الف: "+ansOrDash(state.q4a)+" تومان | ب: "+ansOrDash(state.q4b)+" بسته"},
+      {q:"سوال ۵ 📖", a:ansOrDash(state.q5)+" صفحه"},
+      {q:"سوال ۶ 🧮", a:state.q6.map(ansOrDash).join(" و ")},
+      {q:"سوال ۷ 🟧", a:"شکل اول: "+ansOrDash(state.q7[0])+" مربع ("+(state.q7p[0]||"بدون الگو")+") | شکل دوم: "+ansOrDash(state.q7[1])+" مربع ("+(state.q7p[1]||"بدون الگو")+")"}
+    ];
+  }
+  function faDate(){
+    try{ return new Intl.DateTimeFormat("fa-IR",{dateStyle:"long"}).format(new Date()); }catch(e){ return ""; }
+  }
+  function buildSummary(){
+    var html='<div style="text-align:center;font-weight:800;font-size:1.05rem;">📝 خلاصه‌ی جواب‌های من</div>'+
+      '<div style="text-align:center;font-size:.9rem;color:#6b6790;">ریاضی سوم دبستان — فصل ۱</div>'+
+      '<div class="sumrow"><b>👧👦 دانش‌آموز:</b> <span class="sumans">'+(state.name||"—")+'</span></div>'+
+      '<div class="sumrow"><b>📅 تاریخ:</b> <span class="sumans">'+faDate()+'</span></div>';
+    sumLines().forEach(function(l){ html+='<div class="sumrow"><b>'+l.q+':</b><br><span class="sumans">'+l.a+'</span></div>'; });
+    html+='<div style="text-align:center;font-size:.85rem;color:#8a86b0;margin-top:8px;">این تصویر را برای معلمت بفرست 🌷</div>';
+    document.getElementById("sumCard").innerHTML=html;
+  }
+
+  /* ---------- ساخت تصویر خلاصه (بدون نیاز به اینترنت) ---------- */
+  function drawSummaryCanvas(){
+    var W=900, M=64, scale=2, lineH=40, qH=30;
+    var c=document.createElement("canvas");
+    var ctx=c.getContext("2d");
+    var font='Vazirmatn, "Segoe UI", Tahoma, "Noto Sans Arabic", sans-serif';
+    /* محاسبه‌ی ارتفاع */
+    var lines=[];
+    lines.push({t:"📝 خلاصه‌ی جواب‌های من", f:"bold 40px "+font, gap:16, center:true});
+    lines.push({t:"ریاضی سوم دبستان — فصل ۱", f:"26px "+font, gap:26, center:true, color:"#6b6790"});
+    lines.push({t:"🧒 دانش‌آموز: "+(state.name||"—")+"     📅 "+faDate(), f:"bold 27px "+font, gap:30});
+    sumLines().forEach(function(l){
+      lines.push({t:l.q+":", f:"bold 27px "+font, gap:6, color:"#6a48e8"});
+      /* شکستن خط جواب */
+      ctx.font="27px "+font;
+      var words=l.a.split(" "), cur="";
+      var wrapped=[];
+      words.forEach(function(w){
+        var t=cur?cur+" "+w:w;
+        if(ctx.measureText(t).width>W-2*M-20){ wrapped.push(cur); cur=w; } else cur=t;
+      });
+      if(cur) wrapped.push(cur);
+      wrapped.forEach(function(wd,idx){ lines.push({t:wd, f:"27px "+font, gap:idx===wrapped.length-1?22:4, color:"#1f7a4d", bold:true}); });
+    });
+    lines.push({t:"این تصویر را برای معلمت بفرست 🌷", f:"24px "+font, gap:0, center:true, color:"#8a86b0"});
+    var H=M+30;
+    lines.forEach(function(l){ H+=lineH+l.gap; });
+    H+=M;
+    c.width=W*scale; c.height=H*scale;
+    ctx.scale(scale,scale);
+    ctx.direction="rtl"; ctx.textAlign="right"; ctx.textBaseline="top";
+    /* پس‌زمینه */
+    ctx.fillStyle="#fffdf7"; ctx.fillRect(0,0,W,H);
+    var grad=ctx.createLinearGradient(0,0,W,0);
+    grad.addColorStop(0,"#ff6fa5"); grad.addColorStop(.5,"#ffb347"); grad.addColorStop(1,"#3ecf8e");
+    ctx.fillStyle=grad; ctx.fillRect(0,0,W,14); ctx.fillRect(0,H-14,W,14);
+    ctx.strokeStyle="#e3d9ff"; ctx.lineWidth=4; ctx.strokeRect(22,22,W-44,H-44);
+    var y=M+16;
+    lines.forEach(function(l){
+      ctx.font=l.f; ctx.fillStyle=l.color||"#33305e";
+      var x=l.center?(W/2):(W-M);
+      if(l.center){ ctx.save(); ctx.textAlign="center"; ctx.fillText(l.t,W/2,y); ctx.restore(); }
+      else ctx.fillText(l.t,x,y);
+      y+=lineH+l.gap;
+    });
+    return c;
+  }
+
+  document.getElementById("btnShot").addEventListener("click",function(){
+    try{
+      var c=drawSummaryCanvas();
+      var url=c.toDataURL("image/png");
+      var img=document.getElementById("modalImg");
+      img.src=url;
+      document.getElementById("modalSave").href=url;
+      document.getElementById("modal").classList.add("open");
+      var a=document.createElement("a");
+      a.href=url; a.download="answer-summary.png";
+      document.body.appendChild(a); a.click(); a.remove();
+      toast("تصویر خلاصه ساخته شد 📸");
+    }catch(err){ toast("مرورگرت اجازه نداد؛ از صفحه اسکرین‌شات بگیر 📱"); }
+  });
+  document.getElementById("modalClose").addEventListener("click",function(){ document.getElementById("modal").classList.remove("open"); });
+  document.getElementById("modal").addEventListener("click",function(e){ if(e.target.id==="modal") e.target.classList.remove("open"); });
+
+  /* ---------- نمایش نتیجه (فقط بعد از پایان آزمون) ---------- */
+  document.getElementById("btnReveal").addEventListener("click",function(){
+    var box=document.getElementById("revealBox");
+    if(!box.classList.contains("hidden")) return;
+    var rows=[], score=0, total=0;
+    function chk(label, got, exp){
+      total++;
+      var ok = got!==null && got===exp;
+      if(ok) score++;
+      rows.push('<div class="sumrow">'+label+': <span class="sumans">'+ansOrDash(got)+'</span> '+(ok?'<span class="ok">✅ درست</span>':'<span class="bad">❌ نادرست (جواب: '+toFa(exp)+')</span>')+'</div>');
+    }
+    state.q2a.forEach(function(v,i){ chk("سوال ۲ ردیف ۱ خانه‌ی "+toFa(i+1), num(v), KEY.q2a[i]); });
+    state.q2b.forEach(function(v,i){ chk("سوال ۲ ردیف ۲ خانه‌ی "+toFa(i+1), num(v), KEY.q2b[i]); });
+    state.q4t.forEach(function(v,i){ chk("سوال ۴ سود "+toFa(i+1)+" بسته", num(v), KEY.q4t[i]); });
+    chk("سوال ۴ بخش الف", num(state.q4a), KEY.q4a);
+    chk("سوال ۴ بخش ب", num(state.q4b), KEY.q4b);
+    chk("سوال ۵", num(state.q5), KEY.q5);
+    state.q6.forEach(function(v,i){ chk("سوال ۶ عدد "+toFa(i+1), num(v), KEY.q6[i]); });
+    chk("سوال ۷ شکل اول", state.q7[0], KEY.q7[0]);
+    chk("سوال ۷ شکل دوم", state.q7[1], KEY.q7[1]);
+    var starsN = score>=18?"🌟🌟🌟":score>=13?"🌟🌟":score>=8?"🌟":"💪";
+    box.innerHTML='<div class="scorebox">امتیاز تو: '+toFa(score)+" از "+toFa(total)+" "+starsN+'</div>'+rows.join("")+
+      '<div class="note">🌈 اشکالی ندارد اگر اشتباهی داشتی! با معلمت تمرین می‌کنی و قهرمان می‌شوی.</div>';
+    box.classList.remove("hidden");
+    box.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+
+  updateStars();
+})();
+</script>
+</body>
+</html>
